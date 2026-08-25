@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Course Details - SkillMatch</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/courses.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/courses" class="logo">Skill<span>Match</span></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="/courses">Courses</a></li>
+        <li><a href="/recommendations">Recommendations</a></li>
+        <li><a href="/profile">Profile</a></li>
+      </ul>
+      <button onclick="toggleTheme()" class="btn-theme-toggle" title="Toggle Dark / Light Mode">
+        <span id="themeToggleIcon" class="material-symbols-outlined">dark_mode</span> <span id="themeToggleLabel">Dark</span>
+      </button>
+    </div>
+  </nav>
+  <main class="main-container details-container">
+    <div class="glass-card" id="detailsCard"></div>
+  </main>
+  <script src="/static/main.js"></script>
+</body>
+</html>
+

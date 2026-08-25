@@ -1,0 +1,49 @@
+name: CI/CD - Build, Push to GHCR, Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: ghcr.io/3zzam217/skills_utilization
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write        # required to push to ghcr.io
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./code
+          file: ./code/Dockerfile
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: self-hosted          # this is the runner registered from the actions-runner/ folder
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Make deploy script executable
+        run: chmod +x vault-script.sh
+
+      - name: Fetch secrets from Vault and deploy
+        run: ./vault-script.sh

@@ -1,0 +1,8 @@
+# Never push these — Vault holds live secrets & unseal material
+vault/
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
